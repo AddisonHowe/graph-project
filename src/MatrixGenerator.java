@@ -18,7 +18,7 @@ import java.util.TreeSet;
 public class MatrixGenerator {
 
     private final String EXCEL_FILE_PATH =
-            "/Users/addisonhowe/Documents/Graph Project/data/1907-08 Directors Complete copy.xlsx";
+            "/Users/addisonhowe/Documents/1907 Graph Project/Java Component/graph-project/data/1907-08 Directors Complete copy.xlsx";
     //private int[][] matrix;
     private Matrix matrix;
     private int size;
