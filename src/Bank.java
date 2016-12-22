@@ -38,6 +38,16 @@ public class Bank implements Comparable<Bank> {
         return size;
     }
 
+    public int getNumberOfCommonDirectors(Bank b) {
+        int total = 0;
+        for (Director d : directors) {
+            if (b.getDirectors().contains(d)) {
+                total += 1;
+            }
+        }
+        return total;
+    }
+
     @Override
     public String toString() {
         return "Bank{" +

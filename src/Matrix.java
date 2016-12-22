@@ -21,4 +21,8 @@ public class Matrix {
     public int get(int row, int col) {
         return matrix[row][col];
     }
+
+    public int getSize() {
+        return size;
+    }
 }

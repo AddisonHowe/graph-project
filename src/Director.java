@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * The size of this list defines the bankCount integer value.
  */
 
-public class Director {
+public class Director implements Comparable<Director> {
 
     private String first;
     private String middle;
@@ -20,6 +20,7 @@ public class Director {
     private boolean isMiddleNull = false;
     private ArrayList<Bank> banks;
     private int bankCount;
+    private String fullName;
 
     public Director(String first, String middle, String last, String suffix) {
         this.first = first;
@@ -34,8 +35,9 @@ public class Director {
         } else if (middle.length() == 1) {
             isMiddleInitial = true;
         }
+        this.fullName = generateFullName(first, middle, last, suffix);
         this.banks = new ArrayList<Bank>();
-        this. bankCount = 0;
+        this.bankCount = 0;
     }
 
     public void addBank(Bank bank) {
@@ -117,4 +119,23 @@ public class Director {
                 ", suffix='" + suffix + '\'' +
                 '}';
     }
+
+    private String generateFullName(String first, String middle, String last, String sufix) {
+        String fullName = last;
+        if (!suffix.equals("")) {
+            fullName += " " + suffix + ", " + first;
+        } else {
+            fullName += ", " + first;
+        }
+        if (!isMiddleNull) {
+            fullName += " " + middle;
+        }
+        return fullName;
+    }
+
+    @Override
+    public int compareTo(Director d) {
+        return fullName.compareTo(d.fullName);
+    }
+
 }
