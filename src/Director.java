@@ -3,7 +3,12 @@ import java.util.ArrayList;
 
 /**
  * Created by addisonhowe on 12/20/16.
+ * A Director has a first, middle, last name, and suffix.
+ * Directors are not uniquely defined by name.
+ * A Director has a list of Banks on which it appears.
+ * The size of this list defines the bankCount integer value.
  */
+
 public class Director {
 
     private String first;
@@ -14,6 +19,7 @@ public class Director {
     private boolean isMiddleInitial = false;
     private boolean isMiddleNull = false;
     private ArrayList<Bank> banks;
+    private int bankCount;
 
     public Director(String first, String middle, String last, String suffix) {
         this.first = first;
@@ -29,14 +35,20 @@ public class Director {
             isMiddleInitial = true;
         }
         this.banks = new ArrayList<Bank>();
+        this. bankCount = 0;
     }
 
     public void addBank(Bank bank) {
         banks.add(bank);
+        bankCount += 1;
     }
 
     public ArrayList<Bank> getBanks() {
         return banks;
+    }
+
+    public int getBankCount() {
+        return bankCount;
     }
 
     @Override
@@ -47,9 +59,13 @@ public class Director {
         return lastEquals(director) && suffixEquals(director) && firstEquals(director) && middleEquals(director);
     }
 
+
+    /*
+    First names are equal if strings match or if one
+    is an initial and matches first letter of other.
+     */
     private boolean firstEquals(Director d) {
         if (first.equals(d.first)) {
-            // if strings equal, assume same
             return true;
         } else if (isFirstInitial || d.isFirstInitial) {
             return first.charAt(0) == d.first.charAt(0);
@@ -58,6 +74,11 @@ public class Director {
         }
     }
 
+    /*
+    Middle names are equal if strings match or if one
+    is an initial and mathces first letter of other.
+    Equality is excluded if exactly one is not given.
+     */
     private boolean middleEquals(Director d) {
         if (middle.equals(d.middle)) {
             // if strings equal, assume same
@@ -73,10 +94,16 @@ public class Director {
         }
     }
 
+    /*
+    Last names are equal iff strings match.
+     */
     private boolean lastEquals(Director d) {
         return last.equals(d.last);
     }
 
+    /*
+    Suffixes are equal iff strings match.
+     */
     private boolean suffixEquals(Director d) {
         return suffix.equals(d.suffix);
     }

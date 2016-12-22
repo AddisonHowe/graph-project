@@ -13,19 +13,23 @@ import java.util.TreeSet;
 
 /**
  * Created by addisonhowe on 12/20/16.
+ * Generates an adjacency matrix based on the associations between directors and banks.
+ * Writes this matrix to an excel file along with the names of the banks in column/row 0.
  */
 
 public class MatrixGenerator {
 
-    private final String EXCEL_FILE_PATH =
-            "/Users/addisonhowe/Documents/1907 Graph Project/Java Component/graph-project/data/1907-08 Directors Complete Table.xlsx";
+    private String sourcePath;
+    private String outputPath;
     private Matrix matrix;
     private int size;
     private TreeSet<Bank> sortedBanks;
     private TreeMap<Integer, Bank> bankMap;
 
-    public MatrixGenerator() {
-        ExcelReader er = new ExcelReader(EXCEL_FILE_PATH);
+    public MatrixGenerator(String sourcePath, String outputPath) {
+        this.sourcePath = sourcePath;
+        this.outputPath = outputPath;
+        ExcelReader er = new ExcelReader(sourcePath);
         ArrayList<Bank> banks = er.getBanks();
         ArrayList<Director> directors = er.getDirectors();
         size = banks.size() + 1;
@@ -69,7 +73,7 @@ public class MatrixGenerator {
 
     public void matrixToExcel() throws IOException {
         // create a new file
-        FileOutputStream out = new FileOutputStream("outputMatrix.xls");
+        FileOutputStream out = new FileOutputStream(outputPath);
         Workbook wb = new HSSFWorkbook();
         Sheet sheet = wb.createSheet();
         Row row;

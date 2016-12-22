@@ -3,6 +3,9 @@ import java.util.ArrayList;
 
 /**
  * Created by addisonhowe on 12/20/16.
+ * A Bank is defined by its name.
+ * Each has a list of Directors.
+ * The size of a bank is the number of Directors
  */
 
 public class Bank implements Comparable<Bank> {

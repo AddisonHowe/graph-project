@@ -1,8 +1,9 @@
-import java.util.Arrays;
 
 /**
  * Created by addisonhowe on 12/21/16.
+ * A square matrix of size n consisting of integer values.
  */
+
 public class Matrix {
 
     private int[][] matrix;
