@@ -55,17 +55,22 @@ public class ExcelReader {
     }
 
     private void readRow(Row row) {
-        Iterator<Cell> cellIterator = row.cellIterator();
-        Cell cell = cellIterator.next();
-        String bankName = cell.getStringCellValue();
-        cell = cellIterator.next();
-        String firstName = cell.getStringCellValue();
-        cell = cellIterator.next();
-        String middleName = cell.getStringCellValue();
-        cell = cellIterator.next();
-        String lastName = cell.getStringCellValue();
-        cell = cellIterator.next();
-        String suffix = cell.getStringCellValue();
+        //Iterator<Cell> cellIterator = row.cellIterator();
+        //Cell cell = cellIterator.next();
+        //String bankName = cell.getStringCellValue();
+        //cell = cellIterator.next();
+        //String firstName = cell.getStringCellValue();
+        //cell = cellIterator.next();
+        //String middleName = cell.getStringCellValue();
+        //cell = cellIterator.next();
+        //String lastName = cell.getStringCellValue();
+        //cell = cellIterator.next();
+        //String suffix = cell.getStringCellValue();
+        String bankName = getCellValue(row, 0);
+        String firstName = getCellValue(row, 1);
+        String middleName = getCellValue(row, 2);
+        String lastName = getCellValue(row, 3);
+        String suffix = getCellValue(row, 4);
 
         Bank bank;
         if (bankNameList.contains(bankName)) {
@@ -87,5 +92,9 @@ public class ExcelReader {
             director.addBank(bank);
             bank.addDirector(director);
         }
+    }
+
+    private String getCellValue(Row row, int i) {
+        return row.getCell(i, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
     }
 }
