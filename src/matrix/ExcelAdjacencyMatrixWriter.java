@@ -3,9 +3,7 @@ package matrix;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,7 +14,7 @@ import java.io.IOException;
 public class ExcelAdjacencyMatrixWriter {
 
     private AdjacencyMatrix adjMatrix;
-    String outputPath;
+    private String outputPath;
 
     public ExcelAdjacencyMatrixWriter(AdjacencyMatrix adjMatrix, String outputPath) {
         this.adjMatrix = adjMatrix;
@@ -24,6 +22,7 @@ public class ExcelAdjacencyMatrixWriter {
     }
 
     public void writeAdjMatrixToExcel() throws IOException {
+        System.out.println("*** Starting write to file: " + outputPath + " ***");
         //create a new file
         FileOutputStream out = new FileOutputStream(outputPath);
         SXSSFWorkbook wb = new SXSSFWorkbook();
@@ -35,23 +34,24 @@ public class ExcelAdjacencyMatrixWriter {
         //close file
         wb.write(out);
         out.close();
+        System.out.println("*** File " + outputPath + " successfully written ***\n");
     }
 
     private void writeHeaderRow(Sheet sheet) {
-        System.out.println("Writing header row");
+        System.out.println("\t Writing header row");
         Row row = sheet.createRow(0);
         for (int cellnum = 1; cellnum < adjMatrix.size(); cellnum++) {
             String cellValue = adjMatrix.getName(cellnum);
             Cell cell = row.createCell(cellnum);
             cell.setCellValue(cellValue);
         }
-        System.out.println("Header row written successfully");
+        System.out.println("\t Header row written successfully");
     }
 
     private void writeBodyRows(Sheet sheet) {
-        System.out.println("Writing body rows");
+        System.out.println("\t Writing body rows");
         for (int r = 1; r < adjMatrix.size(); r++) {
-            if (r % 50 == 0) System.out.println("Writing row " + r + " of " + (adjMatrix.size() - 1));
+            if (r % 100 == 0) System.out.println("\t\t Writing row " + r + " of " + (adjMatrix.size() - 1));
             Row row = sheet.createRow(r);
             //first cell should be the name
             String cellValue = adjMatrix.getName(r);
@@ -64,6 +64,6 @@ public class ExcelAdjacencyMatrixWriter {
                 cell.setCellValue(cellCount);
             }
         }
-        System.out.println("Body rows written successfully");
+        System.out.println("\t Body rows written successfully");
     }
 }
