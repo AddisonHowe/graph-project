@@ -45,7 +45,7 @@ public class AdjacencyMatrix<Item extends MatrixComparable> {
     }
 
     public int size() {
-        return itemsMap.size();
+        return size;
     }
 
 }

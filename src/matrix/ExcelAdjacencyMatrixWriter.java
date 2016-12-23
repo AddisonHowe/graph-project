@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
@@ -25,13 +26,12 @@ public class ExcelAdjacencyMatrixWriter {
     public void writeAdjMatrixToExcel() throws IOException {
         //create a new file
         FileOutputStream out = new FileOutputStream(outputPath);
-        Workbook wb = new XSSFWorkbook();
+        SXSSFWorkbook wb = new SXSSFWorkbook();
         Sheet sheet = wb.createSheet();
         //create header row
         writeHeaderRow(sheet);
         //create body rows
-        writeLowerTriangularBodyRows(sheet);
-        //completeLowerTriangularMatrix(sheet);
+        writeBodyRows(sheet);
         //close file
         wb.write(out);
         out.close();
@@ -48,37 +48,22 @@ public class ExcelAdjacencyMatrixWriter {
         System.out.println("Header row written successfully");
     }
 
-    private void writeLowerTriangularBodyRows(Sheet sheet) {
-        System.out.println("Writing lower triangular body rows");
+    private void writeBodyRows(Sheet sheet) {
+        System.out.println("Writing body rows");
         for (int r = 1; r < adjMatrix.size(); r++) {
-            if (r % 20 == 0) System.out.println("Writing row " + r + " of " + (adjMatrix.size() - 1));
+            if (r % 50 == 0) System.out.println("Writing row " + r + " of " + (adjMatrix.size() - 1));
             Row row = sheet.createRow(r);
             //first cell should be the name
             String cellValue = adjMatrix.getName(r);
             Cell cell = row.createCell(0);
             cell.setCellValue(cellValue);
             //fill body cells with count
-            for (int c = 1; c < r; c++) {
+            for (int c = 1; c < adjMatrix.size(); c++) {
                 int cellCount = adjMatrix.getValue(r, c);
                 cell = row.createCell(c);
                 cell.setCellValue(cellCount);
             }
         }
-        System.out.println("Lower triangular body rows written successfully");
+        System.out.println("Body rows written successfully");
     }
-
-    private void completeLowerTriangularMatrix(Sheet sheet) {
-        System.out.println("Completing lower triangular matrix");
-        for (int r = 1; r < adjMatrix.size(); r++) {
-            if (r % 20 == 0) System.out.println("Writing row " + r + " of " + (adjMatrix.size() - 1));
-            Row activeRow = sheet.getRow(r);
-            for (int c = r; c < adjMatrix.size(); c++) {
-                Cell cell = activeRow.createCell(c);
-                int cellValue = (int) sheet.getRow(c).getCell(r).getNumericCellValue();
-                cell.setCellValue(cellValue);
-            }
-        }
-        System.out.println("Successfully completed lower triangular matrix");
-    }
-
 }

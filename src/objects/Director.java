@@ -50,18 +50,6 @@ public class Director implements MatrixComparable<Director> {
         bankCount += 1;
     }
 
-    public ArrayList<Bank> getBanks() {
-        return banks;
-    }
-
-    public int getBankCount() {
-        return bankCount;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
     public int getCommons(Director d) {
         int total = 0;
         for (Bank b : banks) {
