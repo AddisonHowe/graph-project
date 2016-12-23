@@ -1,14 +1,15 @@
+package objects;
 
 import java.util.ArrayList;
 
 /**
  * Created by addisonhowe on 12/20/16.
- * A Bank is defined by its name.
+ * A objects.Bank is defined by its name.
  * Each has a list of Directors.
  * The size of a bank is the number of Directors
  */
 
-public class Bank implements Comparable<Bank> {
+public class Bank implements MatrixComparable<Bank>  {
 
     private String name;
     private ArrayList<Director> directors;
@@ -38,7 +39,7 @@ public class Bank implements Comparable<Bank> {
         return size;
     }
 
-    public int getNumberOfCommonDirectors(Bank b) {
+    public int getCommons(Bank b) {
         int total = 0;
         for (Director d : directors) {
             if (b.getDirectors().contains(d)) {
@@ -50,9 +51,7 @@ public class Bank implements Comparable<Bank> {
 
     @Override
     public String toString() {
-        return "Bank{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 
     @Override

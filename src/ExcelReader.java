@@ -1,4 +1,6 @@
 
+import objects.Bank;
+import objects.Director;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,7 +23,6 @@ import java.util.Iterator;
 public class ExcelReader {
 
     private String excelFilePath;
-    private ArrayList<String> bankNameList = new ArrayList<String>();
     private ArrayList<Bank> bankList = new ArrayList<Bank>();
     private ArrayList<Director> directorList = new ArrayList<Director>();
 
@@ -69,7 +70,6 @@ public class ExcelReader {
         if (bankList.contains(bank)) {
             bank = bankList.get(bankList.indexOf(bank));
         } else {
-            bankNameList.add(bankName);
             bankList.add(bank);
         }
 
@@ -85,7 +85,10 @@ public class ExcelReader {
         bank.addDirector(director);
     }
 
-    private String getCellValue(Row row, int i) {
-        return row.getCell(i, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+    private String getCellValue(Row row, int c) {
+        if (c == 1 && row.getCell(c, Row.CREATE_NULL_AS_BLANK).getStringCellValue().equals("")) {
+            System.out.println("found");
+        }
+        return row.getCell(c, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
     }
 }

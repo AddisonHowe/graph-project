@@ -1,15 +1,17 @@
+package objects;
 
 import java.util.ArrayList;
+import edu.princeton.cs.algs4.BST;
 
 /**
  * Created by addisonhowe on 12/20/16.
- * A Director has a first, middle, last name, and suffix.
+ * A objects.Director has a first, middle, last name, and suffix.
  * Directors are not uniquely defined by name.
- * A Director has a list of Banks on which it appears.
+ * A objects.Director has a list of Banks on which it appears.
  * The size of this list defines the bankCount integer value.
  */
 
-public class Director implements Comparable<Director> {
+public class Director implements MatrixComparable<Director> {
 
     private String first;
     private String middle;
@@ -19,6 +21,7 @@ public class Director implements Comparable<Director> {
     private boolean isMiddleInitial = false;
     private boolean isMiddleNull = false;
     private ArrayList<Bank> banks;
+    private BST<String, Bank> bankTree;
     private int bankCount;
     private String fullName;
 
@@ -37,11 +40,13 @@ public class Director implements Comparable<Director> {
         }
         this.fullName = generateFullName(first, middle, last, suffix);
         this.banks = new ArrayList<Bank>();
+        this.bankTree = new BST<String, Bank>();
         this.bankCount = 0;
     }
 
     public void addBank(Bank bank) {
         banks.add(bank);
+        bankTree.put(bank.getName(), bank);
         bankCount += 1;
     }
 
@@ -51,6 +56,20 @@ public class Director implements Comparable<Director> {
 
     public int getBankCount() {
         return bankCount;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public int getCommons(Director d) {
+        int total = 0;
+        for (Bank b : banks) {
+            if (d.bankTree.contains(b.getName())) {
+                total += 1;
+            }
+        }
+        return total;
     }
 
     @Override
@@ -112,15 +131,10 @@ public class Director implements Comparable<Director> {
 
     @Override
     public String toString() {
-        return "Director{" +
-                "first='" + first + '\'' +
-                ", middle='" + middle + '\'' +
-                ", last='" + last + '\'' +
-                ", suffix='" + suffix + '\'' +
-                '}';
+        return fullName;
     }
 
-    private String generateFullName(String first, String middle, String last, String sufix) {
+    private String generateFullName(String first, String middle, String last, String suffix) {
         String fullName = last;
         if (!suffix.equals("")) {
             fullName += " " + suffix + ", " + first;
@@ -135,7 +149,15 @@ public class Director implements Comparable<Director> {
 
     @Override
     public int compareTo(Director d) {
-        return fullName.compareTo(d.fullName);
+        if (last.compareTo(d.last) != 0) {
+            return last.compareTo(d.last);
+        } else if (suffix.compareTo(d.suffix) != 0) {
+            return suffix.compareTo(d.suffix);
+        } else if (first.compareTo(d.first) != 0) {
+            return first.compareTo(d.first);
+        } else {
+            return middle.compareTo(d.middle);
+        }
     }
 
 }
