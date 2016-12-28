@@ -5,7 +5,7 @@ import edu.princeton.cs.algs4.BST;
 
 /**
  * Created by addisonhowe on 12/20/16.
- * A objects.Director has a first, middle, last name, and suffix.
+ * A Director has a first, middle, last name, and suffix.
  * Directors are not uniquely defined by name.
  * A Director has a list of Firms on which it appears.
  * The size of this list defines the size integer value.
@@ -52,17 +52,6 @@ public class Director implements GraphComparable<Director, Firm> {
     }
 
     @Override
-    public ArrayList<Firm> getLinks(Director d) {
-        ArrayList<Firm> links = new ArrayList<Firm>();
-        for (Firm f : firms) {
-            if (d.firmTree.contains(f.toString())) {
-                links.add(f);
-            }
-        }
-        return links;
-    }
-
-    @Override
     public int getNumberOfLinks(Director d) {
         int total = 0;
         for (Firm f : firms) {
@@ -98,7 +87,7 @@ public class Director implements GraphComparable<Director, Firm> {
 
     /*
     Middle names are equal if strings match or if one
-    is an initial and mathces first letter of other.
+    is an initial and matches first letter of other.
     Equality is excluded if exactly one is not given.
      */
     private boolean middleEquals(Director d) {

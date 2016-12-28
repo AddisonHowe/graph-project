@@ -16,7 +16,7 @@ public class Runner {
     private final static String BANK_INSURANCE_UNION_SRC_PATH = "data/1907-08 Bank and Insurance Directors Table 12-27-16.xlsx";
 
 
-    private final static String BANK_AM_FULL_OUT_PATH = "output/Bank_Full_AM .xlsx";
+    private final static String BANK_AM_FULL_OUT_PATH = "output/Bank_Full_AM.xlsx";
     private final static String BANK_DIRECTOR_AM_FULL_OUT_PATH = "output/BankDirector_Full_AM.xlsx";
 
     private final static String INSURANCE_FULL_AM_OUT_PATH = "output/Insurance_Full_AM.xlsx";

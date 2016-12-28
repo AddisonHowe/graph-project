@@ -47,17 +47,6 @@ public class Firm implements GraphComparable<Firm, Director> {
     }
 
     @Override
-    public ArrayList<Director> getLinks(Firm f) {
-        ArrayList<Director> commons = new ArrayList<Director>();
-        for (Director d : directors) {
-            if (f.getDirectors().contains(d)) {
-                commons.add(d);
-            }
-        }
-        return commons;
-    }
-
-    @Override
     public String toString() {
         return name;
     }
