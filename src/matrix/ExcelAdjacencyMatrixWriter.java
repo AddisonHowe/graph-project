@@ -13,25 +13,21 @@ import java.io.IOException;
  */
 public class ExcelAdjacencyMatrixWriter {
 
-    private AdjacencyMatrix adjMatrix;
+    private LatentAdjacencyMatrix adjMatrix;
     private String outputPath;
 
-    public ExcelAdjacencyMatrixWriter(AdjacencyMatrix adjMatrix, String outputPath) {
+    public ExcelAdjacencyMatrixWriter(LatentAdjacencyMatrix adjMatrix, String outputPath) {
         this.adjMatrix = adjMatrix;
         this.outputPath = outputPath;
     }
 
     public void writeAdjMatrixToExcel() throws IOException {
         System.out.println("*** Starting write to file: " + outputPath + " ***");
-        //create a new file
         FileOutputStream out = new FileOutputStream(outputPath);
         SXSSFWorkbook wb = new SXSSFWorkbook();
         Sheet sheet = wb.createSheet();
-        //create header row
         writeHeaderRow(sheet);
-        //create body rows
         writeBodyRows(sheet);
-        //close file
         wb.write(out);
         out.close();
         System.out.println("*** File " + outputPath + " successfully written ***\n");

@@ -1,5 +1,5 @@
 
-import objects.Bank;
+import objects.Firm;
 import objects.Director;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -15,15 +15,15 @@ import java.util.Iterator;
  * Created by addisonhowe on 12/20/16.
  * Requires the path to an excel file.
  * Excel file is assumed to have String values in the first five columns:
- * BankName | FirstName | MiddleName | LastName | Suffix
- * Generates a list of the Banks and Directors as defined by the
+ * FirmName | FirstName | MiddleName | LastName | Suffix
+ * Generates a list of the Firms and Directors as defined by the
  * input excel file.
  */
 
 public class ExcelReader {
 
     private String excelFilePath;
-    private ArrayList<Bank> bankList = new ArrayList<Bank>();
+    private ArrayList<Firm> firmList = new ArrayList<Firm>();
     private ArrayList<Director> directorList = new ArrayList<Director>();
 
     public ExcelReader(String excelFilePath) {
@@ -35,8 +35,8 @@ public class ExcelReader {
         return directorList;
     }
 
-    public ArrayList<Bank> getBanks() {
-        return bankList;
+    public ArrayList<Firm> getFirms() {
+        return firmList;
     }
 
     private void readExcel() {
@@ -59,18 +59,18 @@ public class ExcelReader {
 
     private void readRow(Row row) {
         //Process the first five cells of the row
-        String bankName = getCellValue(row, 0);
+        String firmName = getCellValue(row, 0);
         String firstName = getCellValue(row, 1);
         String middleName = getCellValue(row, 2);
         String lastName = getCellValue(row, 3);
         String suffix = getCellValue(row, 4);
 
-        Bank bank = new Bank(bankName);
-        //Check if the bank already exists.
-        if (bankList.contains(bank)) {
-            bank = bankList.get(bankList.indexOf(bank));
+        Firm firm = new Firm(firmName);
+        //Check if the firm already exists.
+        if (firmList.contains(firm)) {
+            firm = firmList.get(firmList.indexOf(firm));
         } else {
-            bankList.add(bank);
+            firmList.add(firm);
         }
 
         Director director = new Director(firstName, middleName, lastName, suffix);
@@ -80,9 +80,9 @@ public class ExcelReader {
         } else {
             directorList.add(director);
         }
-        //Associate the bank and director
-        director.addBank(bank);
-        bank.addDirector(director);
+        //Associate the firm and director
+        director.addFirm(firm);
+        firm.addDirector(director);
     }
 
     private String getCellValue(Row row, int c) {

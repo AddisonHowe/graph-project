@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 /**
  * Created by addisonhowe on 12/20/16.
- * A objects.Bank is defined by its name.
+ * A Firm is defined by its name.
  * Each has a list of Directors.
- * The size of a bank is the number of Directors
+ * The size of a firm is the number of Directors
  */
 
-public class Bank implements MatrixComparable<Bank>  {
+public class Firm implements GraphComparable<Firm, Director> {
 
     private String name;
     private ArrayList<Director> directors;
     private int size;
 
 
-    public Bank(String name) {
+    public Firm(String name) {
         this.name = name;
         this.directors = new ArrayList<Director>();
         this.size = 0;
@@ -27,10 +27,6 @@ public class Bank implements MatrixComparable<Bank>  {
         size += 1;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public ArrayList<Director> getDirectors() {
         return directors;
     }
@@ -39,14 +35,26 @@ public class Bank implements MatrixComparable<Bank>  {
         return size;
     }
 
-    public int getCommons(Bank b) {
+    @Override
+    public int getNumberOfLinks(Firm f) {
         int total = 0;
         for (Director d : directors) {
-            if (b.getDirectors().contains(d)) {
+            if (f.getDirectors().contains(d)) {
                 total += 1;
             }
         }
         return total;
+    }
+
+    @Override
+    public ArrayList<Director> getLinks(Firm f) {
+        ArrayList<Director> commons = new ArrayList<Director>();
+        for (Director d : directors) {
+            if (f.getDirectors().contains(d)) {
+                commons.add(d);
+            }
+        }
+        return commons;
     }
 
     @Override
@@ -58,8 +66,8 @@ public class Bank implements MatrixComparable<Bank>  {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Bank bank = (Bank) o;
-        return name != null ? name.equals(bank.name) : bank.name == null;
+        Firm firm = (Firm) o;
+        return name != null ? name.equals(firm.name) : firm.name == null;
     }
 
     @Override
@@ -68,7 +76,7 @@ public class Bank implements MatrixComparable<Bank>  {
     }
 
     @Override
-    public int compareTo(Bank b) {
+    public int compareTo(Firm b) {
         return name.compareTo(b.name);
     }
 }

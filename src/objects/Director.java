@@ -7,11 +7,11 @@ import edu.princeton.cs.algs4.BST;
  * Created by addisonhowe on 12/20/16.
  * A objects.Director has a first, middle, last name, and suffix.
  * Directors are not uniquely defined by name.
- * A objects.Director has a list of Banks on which it appears.
- * The size of this list defines the bankCount integer value.
+ * A Director has a list of Firms on which it appears.
+ * The size of this list defines the size integer value.
  */
 
-public class Director implements MatrixComparable<Director> {
+public class Director implements GraphComparable<Director, Firm> {
 
     private String first;
     private String middle;
@@ -20,9 +20,10 @@ public class Director implements MatrixComparable<Director> {
     private boolean isFirstInitial = false;
     private boolean isMiddleInitial = false;
     private boolean isMiddleNull = false;
-    private ArrayList<Bank> banks;
-    private BST<String, Bank> bankTree;
-    private int bankCount;
+
+    private ArrayList<Firm> firms;
+    private BST<String, Firm> firmTree;
+    private int size;
     private String fullName;
 
     public Director(String first, String middle, String last, String suffix) {
@@ -39,21 +40,33 @@ public class Director implements MatrixComparable<Director> {
             isMiddleInitial = true;
         }
         this.fullName = generateFullName(first, middle, last, suffix);
-        this.banks = new ArrayList<Bank>();
-        this.bankTree = new BST<String, Bank>();
-        this.bankCount = 0;
+        this.firms = new ArrayList<Firm>();
+        this.firmTree = new BST<String, Firm>();
+        this.size = 0;
     }
 
-    public void addBank(Bank bank) {
-        banks.add(bank);
-        bankTree.put(bank.getName(), bank);
-        bankCount += 1;
+    public void addFirm(Firm firm) {
+        firms.add(firm);
+        firmTree.put(firm.toString(), firm);
+        size += 1;
     }
 
-    public int getCommons(Director d) {
+    @Override
+    public ArrayList<Firm> getLinks(Director d) {
+        ArrayList<Firm> links = new ArrayList<Firm>();
+        for (Firm f : firms) {
+            if (d.firmTree.contains(f.toString())) {
+                links.add(f);
+            }
+        }
+        return links;
+    }
+
+    @Override
+    public int getNumberOfLinks(Director d) {
         int total = 0;
-        for (Bank b : banks) {
-            if (d.bankTree.contains(b.getName())) {
+        for (Firm f : firms) {
+            if (d.firmTree.contains(f.toString())) {
                 total += 1;
             }
         }
@@ -147,5 +160,4 @@ public class Director implements MatrixComparable<Director> {
             return middle.compareTo(d.middle);
         }
     }
-
 }
