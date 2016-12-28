@@ -1,6 +1,9 @@
 package objects;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import edu.princeton.cs.algs4.BST;
 
 /**
@@ -23,6 +26,7 @@ public class Director implements GraphComparable<Director, Firm> {
 
     private ArrayList<Firm> firms;
     private BST<String, Firm> firmTree;
+    private ArrayList<String> aliases;
     private int size;
     private String fullName;
 
@@ -43,6 +47,8 @@ public class Director implements GraphComparable<Director, Firm> {
         this.firms = new ArrayList<Firm>();
         this.firmTree = new BST<String, Firm>();
         this.size = 0;
+        this.aliases = new ArrayList<String>();
+        aliases.add(fullName);
     }
 
     public void addFirm(Firm firm) {
@@ -149,4 +155,17 @@ public class Director implements GraphComparable<Director, Firm> {
             return middle.compareTo(d.middle);
         }
     }
+
+    public void addAlias(String first, String middle, String last, String suffix) {
+        String fullName = generateFullName(first, middle, last, suffix);
+        if (!aliases.contains(fullName)) {
+            aliases.add(fullName);
+        }
+    }
+
+    public ArrayList<String> getAliases() {
+        return aliases;
+    }
+
+
 }

@@ -26,7 +26,7 @@ public class ExcelReader {
     private ArrayList<Firm> firmList = new ArrayList<Firm>();
     private ArrayList<Director> directorList = new ArrayList<Director>();
 
-    public ExcelReader(String excelFilePath) {
+    public ExcelReader(String excelFilePath) throws IOException {
         this.excelFilePath = excelFilePath;
         readExcel();
     }
@@ -39,22 +39,18 @@ public class ExcelReader {
         return firmList;
     }
 
-    private void readExcel() {
-        try {
-            FileInputStream excelFile = new FileInputStream(new File(excelFilePath));
-            XSSFWorkbook workbook = new XSSFWorkbook(excelFile);
-            XSSFSheet excelSheet = workbook.getSheetAt(0);
-            Iterator<Row> rowIterator = excelSheet.iterator();
-            rowIterator.next(); //ignore header row
-            //Read rows and process each using the readRow method
-            while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
-                readRow(row);
-            }
-            excelFile.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void readExcel() throws IOException {
+        FileInputStream excelFile = new FileInputStream(new File(excelFilePath));
+        XSSFWorkbook workbook = new XSSFWorkbook(excelFile);
+        XSSFSheet excelSheet = workbook.getSheetAt(0);
+        Iterator<Row> rowIterator = excelSheet.iterator();
+        rowIterator.next(); //ignore header row
+        //Read rows and process each using the readRow method
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            readRow(row);
         }
+        excelFile.close();
     }
 
     private void readRow(Row row) {
@@ -77,6 +73,7 @@ public class ExcelReader {
         //Check if the director already exists.
         if (directorList.contains(director)) {
             director = directorList.get(directorList.indexOf(director));
+            director.addAlias(firstName, middleName, lastName, suffix);
         } else {
             directorList.add(director);
         }

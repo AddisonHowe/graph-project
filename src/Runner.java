@@ -46,18 +46,33 @@ public class Runner {
         fullDirectorWriter.writeAdjMatrixToExcel();
     }
 
+    private static void printAliases(String sourcePath) throws IOException {
+        ExcelReader er = new ExcelReader(sourcePath);
+        ArrayList<Director> directorList = er.getDirectors();
+        for (Director d : directorList) {
+            if (d.getAliases().size() > 1) {
+                System.out.println(d);
+                for (String alias : d.getAliases()) {
+                    System.out.println("\t\t" + alias);
+                }
+            }
+        }
+    }
+
 
 
 
     public static void main(String[] args) throws IOException {
-        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC_PATH,
-                BANK_AM_FULL_OUT_PATH, BANK_DIRECTOR_AM_FULL_OUT_PATH);
+        //writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC_PATH,
+        //        BANK_AM_FULL_OUT_PATH, BANK_DIRECTOR_AM_FULL_OUT_PATH);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC_PATH,
-                INSURANCE_FULL_AM_OUT_PATH, INSURANCE_DIRECTOR_FULL_AM_OUT_PATH);
+        //writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC_PATH,
+        //        INSURANCE_FULL_AM_OUT_PATH, INSURANCE_DIRECTOR_FULL_AM_OUT_PATH);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UNION_SRC_PATH,
-                BANK_INSURANCE_UNION_FULL_AM_OUT_PATH, BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH);
+        //writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UNION_SRC_PATH,
+        //        BANK_INSURANCE_UNION_FULL_AM_OUT_PATH, BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH);
+
+        //printAliases(BANK_SRC_PATH);
     }
 }
 
