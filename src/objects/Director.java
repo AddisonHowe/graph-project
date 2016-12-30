@@ -1,9 +1,6 @@
 package objects;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import edu.princeton.cs.algs4.BST;
 
 /**

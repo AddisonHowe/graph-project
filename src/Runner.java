@@ -13,8 +13,8 @@ public class Runner {
 
     private final static String BANK_SRC_PATH = "data/1907-08 Bank Directors Table.xlsx";
     private final static String INSURANCE_SRC_PATH = "data/1907-08 Insurance Directors Table.xlsx";
-    private final static String BANK_INSURANCE_UNION_SRC_PATH = "data/1907-08 Bank and Insurance Directors Table 12-27-16.xlsx";
-
+    private final static String BANK_INSURANCE_UNION_SRC_PATH = "data/1907-08 Bank and Insurance Directors Table.xlsx";
+    private final static String UTILITIES_SRC_PATH = "data/1907-08 Utilities Table.xlsx";
 
     private final static String BANK_AM_FULL_OUT_PATH = "output/Bank_Full_AM.xlsx";
     private final static String BANK_DIRECTOR_AM_FULL_OUT_PATH = "output/BankDirector_Full_AM.xlsx";
@@ -25,6 +25,10 @@ public class Runner {
     private final static String BANK_INSURANCE_UNION_FULL_AM_OUT_PATH = "output/BankInsuranceUnion_Full_AM.xlsx";
     private final static String BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH = "output/BankInsuranceUnionDirector_Full_AM.xlsx";
 
+    private final static String UTILITIES_FULL_AM_OUT_PATH = "output/Utilities_Full_AM.xlsx";
+    private final static String UTILITIES_DIRECTOR_FULL_AM_OUT_PATH = "output/UtilitiesDirector_Full_AM.xlsx";
+
+    private final static String BANK_DIRECTOR_ALIASES_OUT_PATH = "output/BankDirector_Aliases.xlsx";
 
 
     private static void writeFirmAndDirectorAdjMatricesFromSourcePath(String sourcePath, String outPathFirm,
@@ -59,20 +63,33 @@ public class Runner {
         }
     }
 
+    private static void writeAliasesToExcelFromSourcePath(String sourcePath, String outputPath) throws IOException {
+        ExcelReader er = new ExcelReader(sourcePath);
+        ArrayList<Director> directorList = er.getDirectors();
+        ExcelAliasWriter aliasWriter = new ExcelAliasWriter(directorList, outputPath);
+        aliasWriter.writeAliasesToExcel();
+    }
+
 
 
 
     public static void main(String[] args) throws IOException {
-        //writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC_PATH,
-        //        BANK_AM_FULL_OUT_PATH, BANK_DIRECTOR_AM_FULL_OUT_PATH);
 
-        //writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC_PATH,
-        //        INSURANCE_FULL_AM_OUT_PATH, INSURANCE_DIRECTOR_FULL_AM_OUT_PATH);
 
-        //writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UNION_SRC_PATH,
-        //        BANK_INSURANCE_UNION_FULL_AM_OUT_PATH, BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC_PATH,
+                BANK_AM_FULL_OUT_PATH, BANK_DIRECTOR_AM_FULL_OUT_PATH);
 
-        //printAliases(BANK_SRC_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC_PATH,
+                INSURANCE_FULL_AM_OUT_PATH, INSURANCE_DIRECTOR_FULL_AM_OUT_PATH);
+
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UNION_SRC_PATH,
+                BANK_INSURANCE_UNION_FULL_AM_OUT_PATH, BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH);
+
+        writeFirmAndDirectorAdjMatricesFromSourcePath(UTILITIES_SRC_PATH,
+                UTILITIES_FULL_AM_OUT_PATH, UTILITIES_DIRECTOR_FULL_AM_OUT_PATH);
+
+
+        writeAliasesToExcelFromSourcePath(BANK_SRC_PATH, BANK_DIRECTOR_ALIASES_OUT_PATH);
     }
 }
 
