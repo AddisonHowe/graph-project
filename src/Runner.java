@@ -11,24 +11,35 @@ import java.util.ArrayList;
  */
 public class Runner {
 
-    private final static String BANK_SRC_PATH = "data/1907-08 Bank Directors Table.xlsx";
-    private final static String INSURANCE_SRC_PATH = "data/1907-08 Insurance Directors Table.xlsx";
-    private final static String BANK_INSURANCE_UNION_SRC_PATH = "data/1907-08 Bank and Insurance Directors Table.xlsx";
-    private final static String UTILITIES_SRC_PATH = "data/1907-08 Utilities Table.xlsx";
+    private final static String BANK_SRC = "data/1907-08 Bank Table.xlsx";
+    private final static String INSURANCE_SRC = "data/1907-08 Insurance Table.xlsx";
+    private final static String UTILITIES_SRC = "data/1907-08 Utilities Table.xlsx";
+    private final static String BANK_INSURANCE_SRC = "data/1907-08 Bank & Insurance Table.xlsx";
+    private final static String INSURANCE_UTILITIES_SRC = "data/1907-08 Insurance & Utilities Table.xlsx";
+    private final static String BANK_INSURANCE_UTILITIES_SRC = "data/1907-08 Bank & Insurance & Utilities Table.xlsx";
 
-    private final static String BANK_AM_FULL_OUT_PATH = "output/Bank_Full_AM.xlsx";
-    private final static String BANK_DIRECTOR_AM_FULL_OUT_PATH = "output/BankDirector_Full_AM.xlsx";
 
-    private final static String INSURANCE_FULL_AM_OUT_PATH = "output/Insurance_Full_AM.xlsx";
-    private final static String INSURANCE_DIRECTOR_FULL_AM_OUT_PATH = "output/InsuranceDirector_Full_AM.xlsx";
+    private final static String BANK_AM_OUT = "output/Bank AM.xlsx";
+    private final static String BANK_DIRECTOR_AM_OUT = "output/Bank Director AM.xlsx";
 
-    private final static String BANK_INSURANCE_UNION_FULL_AM_OUT_PATH = "output/BankInsuranceUnion_Full_AM.xlsx";
-    private final static String BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH = "output/BankInsuranceUnionDirector_Full_AM.xlsx";
+    private final static String INSURANCE_AM_OUT = "output/Insurance AM.xlsx";
+    private final static String INSURANCE_DIRECTOR_AM_OUT = "output/Insurance Director AM.xlsx";
 
-    private final static String UTILITIES_FULL_AM_OUT_PATH = "output/Utilities_Full_AM.xlsx";
-    private final static String UTILITIES_DIRECTOR_FULL_AM_OUT_PATH = "output/UtilitiesDirector_Full_AM.xlsx";
+    private final static String UTILITIES_AM_OUT = "output/Utilities AM.xlsx";
+    private final static String UTILITIES_DIRECTOR_AM_OUT = "output/Utilities Director AM.xlsx";
 
-    private final static String BANK_DIRECTOR_ALIASES_OUT_PATH = "output/BankDirector_Aliases.xlsx";
+    private final static String BANK_INSURANCE_AM_OUT = "output/Bank & Insurance AM.xlsx";
+    private final static String BANK_INSURANCE_DIRECTOR_AM_OUT = "output/Bank & Insurance Director AM.xlsx";
+
+    private final static String INSURANCE_UTILITIES_AM_OUT = "output/Insurance & Utilities AM.xlsx";
+    private final static String INSURANCE_UTILITIES_DIRECTOR_AM_OUT = "output/Insurance & Utilities Director AM.xlsx";
+
+    private final static String BANK_INSURANCE_UTILITIES_AM_OUT = "output/Bank & Insurance & Utilities AM.xlsx";
+    private final static String BANK_INSURANCE_UTILITIES_DIRECTOR_AM_OUT = "output/Bank & Insurance & Utilities Director AM.xlsx";
+
+
+
+    private final static String BANK_DIRECTOR_ALIASES_OUT = "output/Bank Director Aliases.xlsx";
 
 
     private static void writeFirmAndDirectorAdjMatricesFromSourcePath(String sourcePath, String outPathFirm,
@@ -75,21 +86,27 @@ public class Runner {
 
     public static void main(String[] args) throws IOException {
 
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC,
+                BANK_AM_OUT, BANK_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC_PATH,
-                BANK_AM_FULL_OUT_PATH, BANK_DIRECTOR_AM_FULL_OUT_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC,
+                INSURANCE_AM_OUT, INSURANCE_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC_PATH,
-                INSURANCE_FULL_AM_OUT_PATH, INSURANCE_DIRECTOR_FULL_AM_OUT_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_SRC,
+                BANK_INSURANCE_AM_OUT, BANK_INSURANCE_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UNION_SRC_PATH,
-                BANK_INSURANCE_UNION_FULL_AM_OUT_PATH, BANK_INSURANCE_UNION_DIRECTOR_FULL_AM_OUT_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(UTILITIES_SRC,
+                UTILITIES_AM_OUT, UTILITIES_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(UTILITIES_SRC_PATH,
-                UTILITIES_FULL_AM_OUT_PATH, UTILITIES_DIRECTOR_FULL_AM_OUT_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_UTILITIES_SRC,
+                INSURANCE_UTILITIES_AM_OUT, INSURANCE_UTILITIES_DIRECTOR_AM_OUT);
 
 
-        writeAliasesToExcelFromSourcePath(BANK_SRC_PATH, BANK_DIRECTOR_ALIASES_OUT_PATH);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UTILITIES_SRC,
+                BANK_INSURANCE_UTILITIES_AM_OUT, BANK_INSURANCE_UTILITIES_DIRECTOR_AM_OUT);
+
+
+        writeAliasesToExcelFromSourcePath(BANK_SRC, BANK_DIRECTOR_ALIASES_OUT);
     }
 }
 
