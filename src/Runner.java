@@ -1,3 +1,4 @@
+import excelmerger.FileMerger;
 import matrix.LatentAdjacencyMatrix;
 import matrix.ExcelAdjacencyMatrixWriter;
 import objects.Firm;
@@ -11,35 +12,44 @@ import java.util.ArrayList;
  */
 public class Runner {
 
-    private final static String BANK_SRC = "data/1907-08 Bank Table.xlsx";
-    private final static String INSURANCE_SRC = "data/1907-08 Insurance Table.xlsx";
-    private final static String UTILITIES_SRC = "data/1907-08 Utilities Table.xlsx";
-    private final static String BANK_INSURANCE_SRC = "data/1907-08 Bank & Insurance Table.xlsx";
-    private final static String INSURANCE_UTILITIES_SRC = "data/1907-08 Insurance & Utilities Table.xlsx";
-    private final static String BANK_INSURANCE_UTILITIES_SRC = "data/1907-08 Bank & Insurance & Utilities Table.xlsx";
+    //PRIMARY TABLES
+    private final static String BANK_SRC = "data/primary/1907-08 Bank Table.xlsx";
+    private final static String INSURANCE_SRC = "data/primary/1907-08 Insurance Table.xlsx";
+    private final static String MANUFACTURING_SRC = "data/primary/1907-08 Manufacturing Table.xlsx";
+    private final static String UTILITIES_SRC = "data/primary/1907-08 Utilities Table.xlsx";
 
+    //MERGED TABLES
+    private final static String BANK_INSURANCE_SRC = "data/merged/1907-08 Bank & Insurance Table.xlsx";
+    private final static String[] BANK_INSURANCE_SRC_ARRAY = new String[] {BANK_SRC, INSURANCE_SRC};
 
-    private final static String BANK_AM_OUT = "output/Bank AM.xlsx";
-    private final static String BANK_DIRECTOR_AM_OUT = "output/Bank Director AM.xlsx";
+    private final static String BANK_UTILITIES_SRC = "data/merged/1907-08 Bank & Utilities Table.xlsx";
+    private final static String[] BANK_UTILITIES_SRC_ARRAY = new String[] {BANK_SRC, UTILITIES_SRC};
 
-    private final static String INSURANCE_AM_OUT = "output/Insurance AM.xlsx";
-    private final static String INSURANCE_DIRECTOR_AM_OUT = "output/Insurance Director AM.xlsx";
+    //COMPLETE TABLE
+    private final static String COMPLETE_SRC = "data/merged/1907-08 Complete Table.xlsx";
+    private final static String[] COMPLETE_SRC_ARRAY = new String[] {BANK_SRC, INSURANCE_SRC, UTILITIES_SRC};
 
-    private final static String UTILITIES_AM_OUT = "output/Utilities AM.xlsx";
-    private final static String UTILITIES_DIRECTOR_AM_OUT = "output/Utilities Director AM.xlsx";
+    //ADJACENCY MATRICES
+    private final static String BANK_AM_OUT = "output/firm matrices/primary/Bank AM.xlsx";
+    private final static String BANK_DIRECTOR_AM_OUT = "output/director matrices/primary/Bank Director AM.xlsx";
 
-    private final static String BANK_INSURANCE_AM_OUT = "output/Bank & Insurance AM.xlsx";
-    private final static String BANK_INSURANCE_DIRECTOR_AM_OUT = "output/Bank & Insurance Director AM.xlsx";
+    private final static String INSURANCE_AM_OUT = "output/firm matrices/primary/Insurance AM.xlsx";
+    private final static String INSURANCE_DIRECTOR_AM_OUT = "output/director matrices/primary/Insurance Director AM.xlsx";
 
-    private final static String INSURANCE_UTILITIES_AM_OUT = "output/Insurance & Utilities AM.xlsx";
-    private final static String INSURANCE_UTILITIES_DIRECTOR_AM_OUT = "output/Insurance & Utilities Director AM.xlsx";
+    private final static String UTILITIES_AM_OUT = "output/firm matrices/primary/Utilities AM.xlsx";
+    private final static String UTILITIES_DIRECTOR_AM_OUT = "output/director matrices/primary/Utilities Director AM.xlsx";
 
-    private final static String BANK_INSURANCE_UTILITIES_AM_OUT = "output/Bank & Insurance & Utilities AM.xlsx";
-    private final static String BANK_INSURANCE_UTILITIES_DIRECTOR_AM_OUT = "output/Bank & Insurance & Utilities Director AM.xlsx";
+    private final static String BANK_INSURANCE_AM_OUT = "output/firm matrices/bank merges/Bank & Insurance AM.xlsx";
+    private final static String BANK_INSURANCE_DIRECTOR_AM_OUT = "output/director matrices/bank merges/Bank & Insurance Director AM.xlsx";
 
+    private final static String BANK_UTILITIES_AM_OUT = "output/firm matrices/bank merges/Bank & Utilities AM.xlsx";
+    private final static String BANK_UTILITIES_DIRECTOR_AM_OUT = "output/director matrices/bank merges/Bank & Utilities Director AM.xlsx";
 
+    private final static String COMPLETE_AM_OUT = "output/firm matrices/complete/Complete AM.xlsx";
+    private final static String COMPLETE_DIRECTOR_AM_OUT = "output/director matrices/complete/Complete Director AM.xlsx";
 
-    private final static String BANK_DIRECTOR_ALIASES_OUT = "output/Bank Director Aliases.xlsx";
+    //ALIAS TABLES
+    private final static String BANK_DIRECTOR_ALIASES_OUT = "output/alias tables/Bank Director Aliases.xlsx";
 
 
     private static void writeFirmAndDirectorAdjMatricesFromSourcePath(String sourcePath, String outPathFirm,
@@ -61,17 +71,10 @@ public class Runner {
         fullDirectorWriter.writeAdjMatrixToExcel();
     }
 
-    private static void printAliases(String sourcePath) throws IOException {
-        ExcelReader er = new ExcelReader(sourcePath);
-        ArrayList<Director> directorList = er.getDirectors();
-        for (Director d : directorList) {
-            if (d.getAliases().size() > 1) {
-                System.out.println(d);
-                for (String alias : d.getAliases()) {
-                    System.out.println("\t\t" + alias);
-                }
-            }
-        }
+    private static void mergeSourceData() throws IOException {
+        FileMerger.mergeFile(BANK_INSURANCE_SRC_ARRAY, BANK_INSURANCE_SRC);
+        FileMerger.mergeFile(BANK_UTILITIES_SRC_ARRAY, BANK_UTILITIES_SRC);
+        FileMerger.mergeFile(COMPLETE_SRC_ARRAY, COMPLETE_SRC);
     }
 
     private static void writeAliasesToExcelFromSourcePath(String sourcePath, String outputPath) throws IOException {
@@ -84,28 +87,32 @@ public class Runner {
 
 
 
+
     public static void main(String[] args) throws IOException {
 
+        //Create merged tables
+        mergeSourceData();
+
+        //Write matrices
         writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_SRC,
                 BANK_AM_OUT, BANK_DIRECTOR_AM_OUT);
 
         writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_SRC,
                 INSURANCE_AM_OUT, INSURANCE_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_SRC,
-                BANK_INSURANCE_AM_OUT, BANK_INSURANCE_DIRECTOR_AM_OUT);
-
         writeFirmAndDirectorAdjMatricesFromSourcePath(UTILITIES_SRC,
                 UTILITIES_AM_OUT, UTILITIES_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(INSURANCE_UTILITIES_SRC,
-                INSURANCE_UTILITIES_AM_OUT, INSURANCE_UTILITIES_DIRECTOR_AM_OUT);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_SRC,
+                BANK_INSURANCE_AM_OUT, BANK_INSURANCE_DIRECTOR_AM_OUT);
 
+        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_UTILITIES_SRC,
+                BANK_UTILITIES_AM_OUT, BANK_UTILITIES_DIRECTOR_AM_OUT);
 
-        writeFirmAndDirectorAdjMatricesFromSourcePath(BANK_INSURANCE_UTILITIES_SRC,
-                BANK_INSURANCE_UTILITIES_AM_OUT, BANK_INSURANCE_UTILITIES_DIRECTOR_AM_OUT);
+        writeFirmAndDirectorAdjMatricesFromSourcePath(COMPLETE_SRC,
+                COMPLETE_AM_OUT, COMPLETE_DIRECTOR_AM_OUT);
 
-
+        //Write aliases
         writeAliasesToExcelFromSourcePath(BANK_SRC, BANK_DIRECTOR_ALIASES_OUT);
     }
 }
