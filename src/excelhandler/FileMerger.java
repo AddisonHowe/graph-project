@@ -1,5 +1,6 @@
-package excelmerger;
+package excelhandler;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -43,6 +44,7 @@ public class FileMerger {
         row.createCell(2).setCellValue("Middle");
         row.createCell(3).setCellValue("Last");
         row.createCell(4).setCellValue("Suffix");
+        row.createCell(5).setCellValue("UID");
     }
 
     private static int readWriteFileToSheet(String srcPath, Sheet writeSheet, int rowCounter) throws IOException {
@@ -64,12 +66,14 @@ public class FileMerger {
     }
 
     private static void readWriteRow(Row readRow, Row writeRow) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             writeRow.createCell(i).setCellValue(getCellValue(readRow, i));
         }
     }
 
-    private static String getCellValue(Row row, int c) {
-        return row.getCell(c, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+    private static String getCellValue(Row row, int col) {
+        Cell cell = row.getCell(col, Row.CREATE_NULL_AS_BLANK);
+        cell.setCellType(Cell.CELL_TYPE_STRING);
+        return cell.getStringCellValue();
     }
 }

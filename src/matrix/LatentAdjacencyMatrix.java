@@ -22,6 +22,7 @@ public class LatentAdjacencyMatrix<Item extends GraphComparable<Item, Link>, Lin
         for (int index = 1; index < size; index++) {
             itemsMap.put(index, pq.poll());
         }
+        System.out.println(checkSymmetric());
     }
 
     public String getName(int index) {
@@ -41,4 +42,19 @@ public class LatentAdjacencyMatrix<Item extends GraphComparable<Item, Link>, Lin
         return size;
     }
 
+    public boolean checkSymmetric() {
+        boolean sym = true;
+        for (int r = 1; r < size; r++) {
+            for (int c =1; c <= r; c++) {
+                if (getValue(r, c) != getValue(c, r)) {
+                    System.out.println("Values do not coincide! r: " + r + " c: " + c );
+                    System.out.println(itemsMap.get(r));
+                    System.out.println(itemsMap.get(c));
+                    sym = false;
+                }
+            }
+        }
+        if (sym) System.out.println("Matrix is symmetric");
+        return sym;
+    }
 }

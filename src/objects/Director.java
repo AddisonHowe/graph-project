@@ -17,6 +17,7 @@ public class Director implements GraphComparable<Director, Firm> {
     private String middle;
     private String last;
     private String suffix;
+    private String uID;
     private boolean isFirstInitial = false;
     private boolean isMiddleInitial = false;
     private boolean isMiddleNull = false;
@@ -27,11 +28,12 @@ public class Director implements GraphComparable<Director, Firm> {
     private int size;
     private String fullName;
 
-    public Director(String first, String middle, String last, String suffix) {
+    public Director(String first, String middle, String last, String suffix, String uID) {
         this.first = first;
         this.middle = middle;
         this.last = last;
         this.suffix = suffix;
+        this.uID = uID;
         if (first.length() == 1) {
             isFirstInitial = true;
         }
@@ -65,11 +67,18 @@ public class Director implements GraphComparable<Director, Firm> {
         return total;
     }
 
+    public String getMiddle() {
+        return middle;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Director director = (Director) o;
+        if (!this.uID.equals(director.uID)) {
+            return false;
+        }
         return lastEquals(director) && suffixEquals(director) && firstEquals(director) && middleEquals(director);
     }
 

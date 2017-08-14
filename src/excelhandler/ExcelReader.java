@@ -1,6 +1,8 @@
+package excelhandler;
 
 import objects.Firm;
 import objects.Director;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,6 +23,13 @@ import java.util.Iterator;
  */
 
 public class ExcelReader {
+
+    private static final int FIRM_COL = 0;
+    private static final int FIRST_COL = 1;
+    private static final int MIDDLE_COL = 2;
+    private static final int LAST_COL = 3;
+    private static final int SUFFIX_COL = 4;
+    private static final int UID_COL = 5;
 
     private String excelFilePath;
     private ArrayList<Firm> firmList = new ArrayList<Firm>();
@@ -55,11 +64,12 @@ public class ExcelReader {
 
     private void readRow(Row row) {
         //Process the first five cells of the row
-        String firmName = getCellValue(row, 0);
-        String firstName = getCellValue(row, 1);
-        String middleName = getCellValue(row, 2);
-        String lastName = getCellValue(row, 3);
-        String suffix = getCellValue(row, 4);
+        String firmName = getCellValue(row, FIRM_COL);
+        String firstName = getCellValue(row, FIRST_COL);
+        String middleName = getCellValue(row, MIDDLE_COL);
+        String lastName = getCellValue(row, LAST_COL);
+        String suffix = getCellValue(row, SUFFIX_COL);
+        String uID = getCellValue(row, UID_COL);
 
         Firm firm = new Firm(firmName);
         //Check if the firm already exists.
@@ -69,7 +79,7 @@ public class ExcelReader {
             firmList.add(firm);
         }
 
-        Director director = new Director(firstName, middleName, lastName, suffix);
+        Director director = new Director(firstName, middleName, lastName, suffix, uID);
         //Check if the director already exists.
         if (directorList.contains(director)) {
             director = directorList.get(directorList.indexOf(director));
@@ -82,10 +92,9 @@ public class ExcelReader {
         firm.addDirector(director);
     }
 
-    private String getCellValue(Row row, int c) {
-        if (c == 1 && row.getCell(c, Row.CREATE_NULL_AS_BLANK).getStringCellValue().equals("")) {
-            System.out.println("found");
-        }
-        return row.getCell(c, Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+    private String getCellValue(Row row, int col) {
+        Cell cell = row.getCell(col, Row.CREATE_NULL_AS_BLANK);
+        cell.setCellType(Cell.CELL_TYPE_STRING);
+        return cell.getStringCellValue();
     }
 }
