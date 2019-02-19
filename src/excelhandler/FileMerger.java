@@ -3,7 +3,6 @@ package excelhandler;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -21,7 +20,7 @@ public class FileMerger {
     public static void mergeFile(String[] fileSrcPaths, String outputPath) throws IOException {
         System.out.println("*** Starting merge to file: " + outputPath + " ***");
         FileOutputStream out = new FileOutputStream(outputPath);
-        SXSSFWorkbook wb = new SXSSFWorkbook();
+        XSSFWorkbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet();
 
         writeHeaderRow(sheet);

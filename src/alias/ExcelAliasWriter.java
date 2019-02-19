@@ -35,7 +35,8 @@ public class ExcelAliasWriter {
     }
 
     private void writeRows(Sheet sheet) {
-        ArrayList<Director> filteredDirectors = getDirectorsWithMultipleNames(directorList);
+        ArrayList<Director> filteredDirectors = getDirectorsWithNames(directorList);
+        //ArrayList<Director> filteredDirectors = getDirectorsWithMultipleNames(directorList);
         for (int r = 0; r < filteredDirectors.size(); r++) {
             Row row = sheet.createRow(r);
             Director director = filteredDirectors.get(r);
@@ -53,6 +54,14 @@ public class ExcelAliasWriter {
             if (d.getAliases().size() > 1) {
                 filteredDirectors.add(d);
             }
+        }
+        return filteredDirectors;
+    }
+
+    private ArrayList<Director> getDirectorsWithNames(ArrayList<Director> directorList) {
+        ArrayList<Director> filteredDirectors = new ArrayList<Director>();
+        for (Director d : directorList) {
+            filteredDirectors.add(d);
         }
         return filteredDirectors;
     }
